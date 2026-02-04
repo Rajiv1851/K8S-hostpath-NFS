@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+   replicas: 3
+   selector:
+     matchLabels:
+       app: myapp
+   template: # this
+      metadata:
+        labels:
+          app: myapp
+      spec:
+        containers:
+          - name: mycontainer
+            image: nginx
+            ports:
+              - containerPort: 80
+            volumeMounts: # pod path volume mount
+              - name: myefsvolume
+                mountPath: /usr/share/nginx/html
+        volumes: # hostPath volume definition
+          - name: myefsvolume
+            nfs:
+              path: /data
+              server: fs-002496a6f307f29dc.efs.ap-south-1.amazonaws.com # dns point of EFS
+               
