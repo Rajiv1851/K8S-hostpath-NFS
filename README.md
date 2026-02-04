@@ -18,16 +18,17 @@ HostPath allows mounting a directory from the Node into a Pod.
 
 ```yaml
 volumes:
-- name: host-volume
+- name: hostpathvolume
   hostPath:
-    path: /data
+    path: /home/ubuntu/efs
     type: DirectoryOrCreate
 ```
 
 ### Screenshots
 
-![HostPath Step 1](images/screenshot1.png)
-![HostPath Step 2](images/screenshot2.png)
+![HostPath Screenshot 1](Screenshot%202026-02-04%20175220.png)
+![HostPath Screenshot 2](Screenshot%202026-02-04%20164337.png)
+
 
 ---
 
@@ -40,16 +41,14 @@ NFS allows multiple pods/nodes to share the same storage.
 ```bash
 sudo apt update
 sudo apt install nfs-kernel-server -y
-sudo mkdir -p /srv/nfs/kubedata
-sudo chown nobody:nogroup /srv/nfs/kubedata
-sudo chmod 777 /srv/nfs/kubedata
+sudo mkdir data
+
 ```
 
 Edit exports:
 
 ```bash
-sudo nano /etc/exports
-/srv/nfs/kubedata *(rw,sync,no_subtree_check,no_root_squash)
+
 ```
 
 Restart NFS:
@@ -63,16 +62,18 @@ sudo systemctl restart nfs-kernel-server
 
 ```yaml
 volumes:
-- name: nfs-volume
+- name: efsvolume
   nfs:
     server: <NFS_SERVER_IP>
-    path: /srv/nfs/kubedata
+    path: /data
 ```
 
 ### Screenshots
 
-![NFS Step 1](images/screenshot3.png)
-![NFS Step 2](images/screenshot4.png)
+![NFS Screenshot](Screenshot%202026-02-04%20171819.png)
+
+
+
 
 ---
 
@@ -124,11 +125,12 @@ spec:
 ```
 
 ### Screenshots
+![EFS Screenshot 1](Screenshot%202026-02-04%20172958.png)
+![EFS Screenshot 2](Screenshot%202026-02-04%20170802.png)
 
-![EFS Step 1](images/screenshot5.png)
-![EFS Step 2](images/screenshot6.png)
-![EFS Step 3](images/screenshot7.png)
-![EFS Step 4](images/screenshot8.png)
+
+
+
 
 ---
 
@@ -167,4 +169,4 @@ DevOps | AWS | Kubernetes | Linux
 
 ---
 
-> ⚠️ Note: Rename screenshot files according to your repo and place them inside `images/` folder.
+> 
